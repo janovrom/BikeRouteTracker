@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# 17
+VisualStudioVersion = 17.10.34825.169
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeRouteTracker", "BikeRouteTracker\BikeRouteTracker\BikeRouteTracker.csproj", "{604DAA30-DA69-45BC-8D43-82E2A9FCDF83}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeRouteTracker.Android", "BikeRouteTracker\BikeRouteTracker.Android\BikeRouteTracker.Android.csproj", "{3126B613-D987-4F59-B54F-5E148FA2DD01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeRouteTracker.Desktop", "BikeRouteTracker.Desktop\BikeRouteTracker.Desktop.csproj", "{1017B68C-8D72-4C2F-BD22-5108BBF7C98F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{604DAA30-DA69-45BC-8D43-82E2A9FCDF83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{604DAA30-DA69-45BC-8D43-82E2A9FCDF83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{604DAA30-DA69-45BC-8D43-82E2A9FCDF83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{604DAA30-DA69-45BC-8D43-82E2A9FCDF83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3126B613-D987-4F59-B54F-5E148FA2DD01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3126B613-D987-4F59-B54F-5E148FA2DD01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3126B613-D987-4F59-B54F-5E148FA2DD01}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3126B613-D987-4F59-B54F-5E148FA2DD01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3126B613-D987-4F59-B54F-5E148FA2DD01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3126B613-D987-4F59-B54F-5E148FA2DD01}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{1017B68C-8D72-4C2F-BD22-5108BBF7C98F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1017B68C-8D72-4C2F-BD22-5108BBF7C98F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1017B68C-8D72-4C2F-BD22-5108BBF7C98F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1017B68C-8D72-4C2F-BD22-5108BBF7C98F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FCFCC142-3831-45DD-9C7F-AB1718113D42}
+	EndGlobalSection
+EndGlobal

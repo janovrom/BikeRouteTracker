@@ -24,10 +24,6 @@ namespace BikeRouteTracker.ViewModels
 
         private ICommand StopCommand { get; init; }
 
-        public MainViewModel()
-        {
-        }
-
         public MainViewModel(
             ILocationService locationService,
             ILocationRepository locationRepository,

@@ -8,21 +8,32 @@ namespace BikeRouteTracker.Services
 {
     internal sealed class LocationService : ILocationService, ISpeedService, IElapsedTimeService
     {
+        private const double _HoursToSeconds = 3600;
+
         private readonly HashSet<ILocationListener> _Listeners = [];
 
-        private Location? _PreviousLocation;
-        private Location? _CurrentLocation;
+        private Location? _previousLocation;
+        private Location? _currentLocation;
 
-        public double ElapsedTimeSeconds => 0;
+        public double ElapsedTimeSeconds
+        {
+            get
+            {
+                if (_currentLocation is null || _previousLocation is null)
+                    return 0;
+
+                return _previousLocation.DeltaHours(_currentLocation) * _HoursToSeconds;
+            }
+        }
 
         public double CurrentSpeed
         {
             get
             {
-                if (_CurrentLocation is null || _PreviousLocation is null)
+                if (_currentLocation is null || _previousLocation is null)
                     return 0;
 
-                return _PreviousLocation.Distance(_CurrentLocation);
+                return _previousLocation.SpeedKph(_currentLocation);
             }
         }
 
@@ -39,6 +50,10 @@ namespace BikeRouteTracker.Services
         public void LocationChanged(double latitude, double longitude)
         {
             Location location = new(latitude, longitude, DateTime.UtcNow);
+
+            _previousLocation = _currentLocation;
+            _currentLocation = location;
+
             _Listeners.ForEach((listener, location) => listener.OnLocationChanged(location), location);
         }
 

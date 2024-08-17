@@ -25,12 +25,12 @@ namespace BikeRouteTracker.Services
 
         public void OnProviderDisabled()
         {
-            _LocationService.UnregisterFromUpdates(this);
+            //_LocationService.UnregisterFromUpdates(this);
         }
 
         public void OnProviderEnabled()
         {
-            _LocationService.RegisterForUpdates(this);
+            //_LocationService.RegisterForUpdates(this);
         }
     }
 }

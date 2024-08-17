@@ -42,7 +42,7 @@
                 Height="50"
                 BorderThickness="2"
                 CornerRadius="4"
-                BorderBrush="Red">
+                BorderBrush="Green">
             </Border>
         </Button>
     </Grid>

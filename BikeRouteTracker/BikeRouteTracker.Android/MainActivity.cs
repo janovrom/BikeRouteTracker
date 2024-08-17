@@ -18,7 +18,7 @@ namespace BikeRouteTracker.Android
         Theme = "@style/MyTheme.NoActionBar",
         Icon = "@drawable/icon",
         MainLauncher = true,
-        Permission = global::Android.Manifest.Permission.AccessFineLocation,
+        Exported = true,
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.UiMode)]
     public class MainActivity : AvaloniaMainActivity<App>, global::Android.Locations.ILocationListener
     {
@@ -105,7 +105,7 @@ namespace BikeRouteTracker.Android
 
                     if (locationManager.IsProviderEnabled(locationProvider))
                     {
-                        locationManager.RequestLocationUpdates(locationProvider, 1000, 1, this);
+                        locationManager.RequestLocationUpdates(locationProvider, 1000, 0, this);
                     }
                 }
             };

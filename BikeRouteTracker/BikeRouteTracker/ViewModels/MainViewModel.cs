@@ -22,7 +22,8 @@ namespace BikeRouteTracker.ViewModels
             set => this.RaiseAndSetIfChanged(ref _speedKph, value);
         }
 
-        private ICommand StopCommand { get; init; }
+        public ICommand StopCommand { get; init; }
+        public ICommand StartCommand { get; init; }
 
         public MainViewModel(
             ILocationService locationService,
@@ -41,9 +42,10 @@ namespace BikeRouteTracker.ViewModels
             {
                 _LocationService.UnregisterFromUpdates(this);
 
-                string fileName = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "route.gpx");
+                //string fileName = Path.Combine(
+                //    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                //    "route.gpx");
+                string fileName = "/storage/emulated/0/Documents/route.gpx"; // "route.gpx
 
                 using FileStream stream = File.OpenWrite(fileName);
                 GpxWriter.Create()
@@ -51,25 +53,31 @@ namespace BikeRouteTracker.ViewModels
                     .Close()
                     .WriteTo(stream);
             });
+
+            StartCommand = ReactiveCommand.Create(() =>
+            {
+                _LocationService.RegisterForUpdates(this);
+            });
         }
 
         public void OnLocationChanged(Location location)
         {
+            _LocationRepository.Append(location);
             SpeedKph = (int)_SpeedService.CurrentSpeed;
         }
 
         public void OnProviderDisabled()
         {
-            SpeedKph = 0;
+            //SpeedKph = 0;
 
-            _LocationService.UnregisterFromUpdates(this);
+            //_LocationService.UnregisterFromUpdates(this);
         }
 
         public void OnProviderEnabled()
         {
-            SpeedKph = (int)_SpeedService.CurrentSpeed;
+            //SpeedKph = (int)_SpeedService.CurrentSpeed;
 
-            _LocationService.RegisterForUpdates(this);
+            //_LocationService.RegisterForUpdates(this);
         }
     }
 }

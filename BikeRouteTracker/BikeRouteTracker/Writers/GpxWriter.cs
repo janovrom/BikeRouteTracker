@@ -7,14 +7,25 @@ namespace BikeRouteTracker.Writers
 {
     internal sealed class GpxWriter
     {
-        private const string GpxHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>";
+        private const string GpxHeader = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
+            "<gpx xmlns=\"http://www.topografix.com/GPX/1/1\" version=\"1.1\" creator=\"Wikipedia\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd\">";
         private const string EmptySpace = "    ";
+        private const string Metadata = @"
+<metadata>
+  <name>Route</name>
+  <desc>Route from BikeRouteTracker</desc>
+  <author>
+   <name>Janovrom</name>
+  </author>
+ </metadata>
+";
 
         private readonly StringBuilder _StringBuilder = new();
 
         private GpxWriter()
         {
             _StringBuilder.Append(GpxHeader);
+            _StringBuilder.Append(Metadata);
         }
 
         internal static GpxWriter Create()

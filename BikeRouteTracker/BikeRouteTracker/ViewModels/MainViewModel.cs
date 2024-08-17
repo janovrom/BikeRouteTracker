@@ -45,7 +45,7 @@ namespace BikeRouteTracker.ViewModels
                 //string fileName = Path.Combine(
                 //    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 //    "route.gpx");
-                string fileName = "/storage/emulated/0/Documents/route.gpx"; // "route.gpx
+                string fileName = $"/storage/emulated/0/Documents/route-{DateTime.UtcNow}.gpx"; // "route.gpx
 
                 using FileStream stream = File.OpenWrite(fileName);
                 GpxWriter.Create()

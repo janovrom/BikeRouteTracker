@@ -1,5 +1,6 @@
 ﻿using BikeRouteTracker.Interfaces;
 using BikeRouteTracker.Models;
+using BikeRouteTracker.Services;
 using BikeRouteTracker.Writers;
 using ReactiveUI;
 using System;
@@ -25,11 +26,13 @@ namespace BikeRouteTracker.ViewModels
         public ICommand StopCommand { get; init; }
         public ICommand StartCommand { get; init; }
 
-        public MainViewModel(
+        public MainViewModel
+        (
             ILocationService locationService,
             ILocationRepository locationRepository,
             ISpeedService speedService,
-            IElapsedTimeService elapsedTimeService)
+            IElapsedTimeService elapsedTimeService
+        )
         {
             _LocationService = locationService;
             _LocationRepository = locationRepository;
@@ -45,7 +48,9 @@ namespace BikeRouteTracker.ViewModels
                 //string fileName = Path.Combine(
                 //    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 //    "route.gpx");
-                string fileName = $"/storage/emulated/0/Documents/route-{DateTime.UtcNow}.gpx"; // "route.gpx
+                DateTime d = DateTime.UtcNow;
+                string date = $"{d.Year}-{d.Month}-{d.Day}-{d.Hour}-{d.Minute}-{d.Second}";
+                string fileName = $"/storage/emulated/0/Documents/route-{date}.gpx"; // "route.gpx
 
                 using FileStream stream = File.OpenWrite(fileName);
                 GpxWriter.Create()
@@ -60,7 +65,7 @@ namespace BikeRouteTracker.ViewModels
             });
         }
 
-        public void OnLocationChanged(Location location)
+        public void LocationChanged(Location location)
         {
             _LocationRepository.Append(location);
             SpeedKph = (int)_SpeedService.CurrentSpeed;

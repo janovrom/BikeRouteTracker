@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeRouteTracker", "BikeRou
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeRouteTracker.Android", "BikeRouteTracker\BikeRouteTracker.Android\BikeRouteTracker.Android.csproj", "{3126B613-D987-4F59-B54F-5E148FA2DD01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeRouteTracker.Desktop", "BikeRouteTracker.Desktop\BikeRouteTracker.Desktop.csproj", "{1017B68C-8D72-4C2F-BD22-5108BBF7C98F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeRouteTracker.Desktop", "BikeRouteTracker\BikeRouteTracker.Desktop\BikeRouteTracker.Desktop.csproj", "{9935506A-D5DF-45D1-9C39-14E1ED848A0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,10 +25,10 @@ Global
 		{3126B613-D987-4F59-B54F-5E148FA2DD01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3126B613-D987-4F59-B54F-5E148FA2DD01}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3126B613-D987-4F59-B54F-5E148FA2DD01}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{1017B68C-8D72-4C2F-BD22-5108BBF7C98F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1017B68C-8D72-4C2F-BD22-5108BBF7C98F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1017B68C-8D72-4C2F-BD22-5108BBF7C98F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1017B68C-8D72-4C2F-BD22-5108BBF7C98F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9935506A-D5DF-45D1-9C39-14E1ED848A0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9935506A-D5DF-45D1-9C39-14E1ED848A0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9935506A-D5DF-45D1-9C39-14E1ED848A0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9935506A-D5DF-45D1-9C39-14E1ED848A0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

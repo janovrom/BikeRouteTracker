@@ -1,10 +1,14 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
+using BikeRouteTracker.Interfaces;
 using BikeRouteTracker.ViewModels;
 using BikeRouteTracker.Views;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace BikeRouteTracker
 {
@@ -22,9 +26,13 @@ namespace BikeRouteTracker
 
         public override void OnFrameworkInitializationCompleted()
         {
+            ILocationProvider? locationProvider = Locator.Current.GetService<ILocationProvider>();
+            locationProvider ??= new DummyLocationProvider();
+
             ServiceCollection serviceCollection = new();
             serviceCollection.UseMicrosoftDependencyResolver();
             serviceCollection.AddServices();
+            serviceCollection.AddSingleton<ILocationProvider>(locationProvider);
 
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
             serviceProvider.UseMicrosoftDependencyResolver();
@@ -47,6 +55,17 @@ namespace BikeRouteTracker
             }
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        private class DummyLocationProvider : ILocationProvider
+        {
+            public void CancelLocationUpdates()
+            {
+            }
+
+            public void RequestLocationUpdates()
+            {
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace BikeRouteTracker.Services
             locationService.RegisterForUpdates(this);
         }
 
-        public void OnLocationChanged(Location location)
+        public void LocationChanged(Location location)
         {
             _LocationRepository.Append(location);
         }

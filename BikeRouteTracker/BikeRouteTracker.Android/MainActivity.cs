@@ -8,8 +8,10 @@ using Avalonia;
 using Avalonia.Android;
 using Avalonia.ReactiveUI;
 using BikeRouteTracker.Interfaces;
+using BikeRouteTracker.Services;
 using Splat;
 using System;
+using System.Collections.Generic;
 
 namespace BikeRouteTracker.Android
 {
@@ -20,9 +22,11 @@ namespace BikeRouteTracker.Android
         MainLauncher = true,
         Exported = true,
         ConfigurationChanges = ConfigChanges.Orientation | ConfigChanges.ScreenSize | ConfigChanges.UiMode)]
-    public class MainActivity : AvaloniaMainActivity<App>, global::Android.Locations.ILocationListener
+    public class MainActivity : AvaloniaMainActivity<App>, global::Android.Locations.ILocationListener, ILocationProvider
     {
         private ILocationService? _locationService;
+        private LocationManager? _locationManager;
+        private readonly List<Interfaces.ILocationListener> _Listeners = [];
 
         public void OnLocationChanged(Location location)
         {
@@ -62,13 +66,12 @@ namespace BikeRouteTracker.Android
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            RegisterDependencies();
             base.OnCreate(savedInstanceState);
 
             Window?.AddFlags(WindowManagerFlags.KeepScreenOn | WindowManagerFlags.Fullscreen);
 
             _locationService = Locator.Current.GetService<ILocationService>();
-            
-            InitializeLocationManager();
         }
 
         protected override void OnResume()
@@ -90,8 +93,18 @@ namespace BikeRouteTracker.Android
                 .UseReactiveUI();
         }
 
-        private void InitializeLocationManager()
+        private void RegisterDependencies()
         {
+            Locator.CurrentMutable.RegisterConstant<ILocationProvider>(this);
+        }
+
+        public void RequestLocationUpdates()
+        {
+            if (_locationManager is not null)
+            {
+                return;
+            }
+
             RequestPermissionsResult = (requestCodes, permissions, grantResults) =>
             {
                 if (grantResults.Length > 0 && grantResults[0] == (int)Permission.Granted)
@@ -111,6 +124,15 @@ namespace BikeRouteTracker.Android
             };
 
             RequestPermissions([global::Android.Manifest.Permission.AccessFineLocation], 42);
+        }
+
+        public void CancelLocationUpdates()
+        {
+            if (_locationManager is null)
+                return;
+
+            _locationManager.RemoveUpdates(this);
+            _locationManager = null;
         }
     }
 }

@@ -4,7 +4,7 @@ namespace BikeRouteTracker.Interfaces
 {
     public interface ILocationListener
     {
-        void OnLocationChanged(Location location);
+        void LocationChanged(Location location);
 
         void OnProviderDisabled();
 

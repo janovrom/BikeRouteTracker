@@ -11,7 +11,7 @@ namespace BikeRouteTracker.Services
         private const double _HoursToSeconds = 3600;
 
         private readonly HashSet<ILocationListener> _Listeners = [];
-
+        private readonly ILocationProvider _LocationProvider;
         private Location? _previousLocation;
         private Location? _currentLocation;
 
@@ -37,14 +37,29 @@ namespace BikeRouteTracker.Services
             }
         }
 
+        public LocationService(ILocationProvider locationProvider)
+        {
+            _LocationProvider = locationProvider;
+        }
+
         public void RegisterForUpdates(ILocationListener locationListener)
         {
+            if (_Listeners.Count == 0)
+            {
+                _LocationProvider.RequestLocationUpdates();
+            }
+
             _Listeners.Add(locationListener);
         }
 
         public void UnregisterFromUpdates(ILocationListener locationListener)
         {
             _Listeners.Remove(locationListener);
+
+            if (_Listeners.Count == 0)
+            {
+                _LocationProvider.CancelLocationUpdates();
+            }
         }
 
         public void LocationChanged(double latitude, double longitude)
@@ -54,7 +69,7 @@ namespace BikeRouteTracker.Services
             _previousLocation = _currentLocation;
             _currentLocation = location;
 
-            _Listeners.ForEach((listener, location) => listener.OnLocationChanged(location), location);
+            _Listeners.ForEach((listener, location) => listener.LocationChanged(location), location);
         }
 
         public void LocationProviderDisabled()

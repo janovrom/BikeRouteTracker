@@ -9,10 +9,9 @@ namespace BikeRouteTracker
     {
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            LocationService locationService = new();
-            services.AddSingleton<ILocationService>(locationService);
-            services.AddSingleton<ISpeedService>(locationService);
-            services.AddSingleton<IElapsedTimeService>(locationService);
+            services.AddSingleton<ILocationService, LocationService>();
+            services.AddSingleton<ISpeedService>(services => (ISpeedService)services.GetRequiredService<ILocationService>());
+            services.AddSingleton<IElapsedTimeService>(services => (IElapsedTimeService)services.GetRequiredService<ILocationService>());
             services.AddSingleton<ILocationRepository, LocationRepository>();
 
             services.AddTransient<MainViewModel>();

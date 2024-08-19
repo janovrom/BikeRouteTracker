@@ -27,9 +27,7 @@ namespace BikeRouteTracker
         public override void OnFrameworkInitializationCompleted()
         {
             ILocationProvider? locationProvider = Locator.Current.GetService<ILocationProvider>();
-
-            if (locationProvider is null)
-                throw new ArgumentNullException(nameof(locationProvider));
+            locationProvider ??= new DummyLocationProvider();
 
             ServiceCollection serviceCollection = new();
             serviceCollection.UseMicrosoftDependencyResolver();
@@ -57,6 +55,17 @@ namespace BikeRouteTracker
             }
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        private class DummyLocationProvider : ILocationProvider
+        {
+            public void CancelLocationUpdates()
+            {
+            }
+
+            public void RequestLocationUpdates()
+            {
+            }
         }
     }
 }

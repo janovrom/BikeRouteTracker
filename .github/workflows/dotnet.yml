@@ -38,13 +38,13 @@ jobs:
     - name: Setup Keystore file
       env:
         KEYSTORE: ${{ secrets.KEYSTORE }}
-        KEYSTORE_NAME: ${{ format("{0}/{1}", "/home/runner/work/BikeRouteTracker", secrets.KEYSTORE_NAME) }}
+        KEYSTORE_NAME: ${{ format('{0}/{1}', '/home/runner/work/BikeRouteTracker', secrets.KEYSTORE_NAME) }}
       run: |
         echo "$KEYSTORE" > keystore.base64.txt
         base64 -d keystore.base64.txt > "$KEYSTORE_NAME"
     - name: Publish
       env:
-        KEYSTORE_NAME: ${{ format("{0}/{1}", "/home/runner/work/BikeRouteTracker", secrets.KEYSTORE_NAME) }}
+        KEYSTORE_NAME: ${{ format('{0}/{1}', '/home/runner/work/BikeRouteTracker', secrets.KEYSTORE_NAME) }}
         KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
         KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
       run: dotnet build BikeRouteTracker/BikeRouteTracker.Android/BikeRouteTracker.Android.csproj -c Release -f net8.0-android /p:AndroidPackageFormats=apk /p:AndroidKeyStore=true /p:AndroidSigningKeyStore="$KEYSTORE_NAME" /p:AndroidSigningKeyAlias="$KEYSTORE_ALIAS" /p:AndroidSigningKeyPass="$KEYSTORE_PASS" /p:AndroidSigningStorePass="$KEYSTORE_PASS" --no-restore 

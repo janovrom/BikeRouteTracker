@@ -11,7 +11,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -35,3 +34,15 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: Setup Keystore file
+      run: |
+        echo "${{ secrets.KEYSTORE }}" > keystore.base64.txt
+        base64 -d keystore.base64.txt > "${{ secrets.KEYSTORE_NAME }}"
+    - name: Publish
+      run: dotnet build BikeRouteTracker/BikeRouteTracker.Android/BikeRouteTracker.Android.csproj -c Release -f net8.0-android /p:AndroidKeyStore=true /p:AndroidSigningKeyStore="${{ secrets.KEYSTORE_NAME }}" /p:AndroidSigningKeyAlias="${{ secrets.KEYSTORE_ALIAS }}" /p:AndroidSigningKeyPass="${{ secrets.KEYSTORE_PASS }}" /p:AndroidSigningStorePass="${{ secrets.KEYSTORE_PASS }}" --no-restore 
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v4
+      with:
+        path: |
+          ./**/*.aab
+          ./**/*.apk

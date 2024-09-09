@@ -36,7 +36,6 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Setup Keystore file
-      working-directory: ${{ github.workspace }}
       env:
         KEYSTORE: ${{ secrets.KEYSTORE }}
         KEYSTORE_NAME: ${{ secrets.KEYSTORE_NAME }}

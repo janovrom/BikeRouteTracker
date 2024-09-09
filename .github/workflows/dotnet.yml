@@ -41,13 +41,13 @@ jobs:
         KEYSTORE_NAME: ${{ secrets.KEYSTORE_NAME }}
       run: |
         echo "$KEYSTORE" > keystore.base64.txt
-        base64 -d keystore.base64.txt > "$KEYSTORE_NAME"
+        base64 -d keystore.base64.txt > format("{0}/{1}", "/home/runner/work/BikeRouteTracker", "$KEYSTORE_NAME")
     - name: Publish
       env:
         KEYSTORE_NAME: ${{ secrets.KEYSTORE_NAME }}
         KEYSTORE_ALIAS: ${{ secrets.KEYSTORE_ALIAS }}
         KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
-      run: dotnet build BikeRouteTracker/BikeRouteTracker.Android/BikeRouteTracker.Android.csproj -c Release -f net8.0-android /p:AndroidPackageFormats=apk /p:AndroidKeyStore=true /p:AndroidSigningKeyStore="$KEYSTORE_NAME" /p:AndroidSigningKeyAlias="$KEYSTORE_ALIAS" /p:AndroidSigningKeyPass="$KEYSTORE_PASS" /p:AndroidSigningStorePass="$KEYSTORE_PASS" --no-restore 
+      run: dotnet build BikeRouteTracker/BikeRouteTracker.Android/BikeRouteTracker.Android.csproj -c Release -f net8.0-android /p:AndroidPackageFormats=apk /p:AndroidKeyStore=true /p:AndroidSigningKeyStore=format("{0}/{1}", "/home/runner/work/BikeRouteTracker", "$KEYSTORE_NAME") /p:AndroidSigningKeyAlias="$KEYSTORE_ALIAS" /p:AndroidSigningKeyPass="$KEYSTORE_PASS" /p:AndroidSigningStorePass="$KEYSTORE_PASS" --no-restore 
     - name: Upload build artifact
       uses: actions/upload-artifact@v4
       with:

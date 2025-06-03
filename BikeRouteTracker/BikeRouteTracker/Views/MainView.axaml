@@ -5,19 +5,92 @@
              xmlns:vm="clr-namespace:BikeRouteTracker.ViewModels"
              mc:Ignorable="d" d:DesignWidth="250" d:DesignHeight="600"
              x:Class="BikeRouteTracker.Views.MainView"
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:IMainViewModel">
     <Design.DataContext>
-        <!-- This only sets the DataContext for the previewer in an IDE,
-         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+        <vm:DesignMainViewModel
+            State="Stopped"
+            CountdownText="3"
+            Progress="1"/>
     </Design.DataContext>
 
-    <Grid Background="#050505">
-        <TextBlock
-            Text="{Binding SpeedKph}"
-            FontSize="48"
-            Foreground="LightGray"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Center"/>
+    <UserControl.Resources>
+        <Color x:Key="FloralWhite">#FFFCF2</Color>
+        <Color x:Key="Timberwolf">#CCC5B9</Color>
+        <Color x:Key="BlackOlive">#403D39</Color>
+        <Color x:Key="EerieBlack">#252422</Color>
+        <Color x:Key="Flame">#EB5E28</Color>
+        <!-- Palette as SolidColorBrushes -->
+        <SolidColorBrush x:Key="Palette.FloralWhite" Color="{StaticResource FloralWhite}" />
+        <SolidColorBrush x:Key="Palette.Timberwolf" Color="{StaticResource Timberwolf}" />
+        <SolidColorBrush x:Key="Palette.BlackOlive" Color="{StaticResource BlackOlive}" />
+        <SolidColorBrush x:Key="Palette.EerieBlack" Color="{StaticResource EerieBlack}" />
+        <SolidColorBrush x:Key="Palette.Flame" Color="{StaticResource Flame}" />
+    </UserControl.Resources>
+    
+    <Grid Background="Black">
+        <!-- Start button -->
+        <Grid IsVisible="{Binding State, Converter={StaticResource ResourceKey=MainViewModelStateToVisibleConverter}, ConverterParameter=Stopped}">
+            <Button
+               IsEnabled="{Binding Path=$parent.IsVisible}"
+               Command="{Binding StartCommand}"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center">
+                <Button.Content>
+                    <Canvas
+                        ClipToBounds="True"
+                        Width="200"
+                        Height="200">
+                        <Canvas.RenderTransform>
+                            <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                        </Canvas.RenderTransform>
+                        <!-- Background Circle -->
+                        <Ellipse
+                            Canvas.Left="30"
+                            Canvas.Top="30"
+                            Width="140"
+                            Height="140"
+                            Fill="{StaticResource Palette.BlackOlive}">
+                            <Ellipse.RenderTransform>
+                                <ScaleTransform ScaleX="{Binding Progress}" ScaleY="{Binding Progress}"/>
+                            </Ellipse.RenderTransform>
+                        </Ellipse>
+                        <!-- Center Polygon (Decoration) -->
+                        <Polygon
+                            Canvas.Left="75"
+                            Canvas.Top="50"
+                            Points="0,0 80,50, 0,100"
+                            Fill="{StaticResource Palette.FloralWhite}"
+                            Stroke="Black"
+                            StrokeThickness="3"/>
+                    </Canvas>
+                </Button.Content>
+            </Button>
+        </Grid>
+        
+        <!-- Starting screen -->
+        <Grid Background="{StaticResource Palette.Timberwolf}" IsVisible="{Binding State, Converter={StaticResource ResourceKey=MainViewModelStateToVisibleConverter}, ConverterParameter=Starting}">
+            <TextBlock
+                Text="{Binding CountdownText}"
+                FontSize="124"
+                Foreground="{StaticResource Palette.EerieBlack}"
+                FontWeight="Bold"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="0,0,0,0"/>
+        </Grid>
+
+        <!-- Speed -->
+        <Grid IsVisible="{Binding State, Converter={StaticResource ResourceKey=MainViewModelStateToVisibleConverter}, ConverterParameter=Running}">
+            <TextBlock
+                Text="{Binding SpeedKph}"
+                FontSize="124"
+                Foreground="{StaticResource Palette.FloralWhite}"
+                FontWeight="Bold"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Margin="0,0,0,0"/>
+        </Grid>
+        
         <Button
             HorizontalAlignment="Right"
             VerticalAlignment="Bottom"
@@ -31,20 +104,5 @@
                 BorderBrush="Red">
             </Border>
         </Button>
-
-        <Button
-            HorizontalAlignment="Left"
-            VerticalAlignment="Bottom"
-            Margin="20,0,0,20"
-            Command="{Binding StartCommand}">
-            <Border
-                Width="50"
-                Height="50"
-                BorderThickness="2"
-                CornerRadius="4"
-                BorderBrush="Green">
-            </Border>
-        </Button>
     </Grid>
-
 </UserControl>

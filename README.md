@@ -1,5 +1,5 @@
 
-# Bike Route Tracker <img style="float:right; margin: 0 25 0 0" src="./images/icon.png" width=100 height=100 />
+# Bike Route Tracker <img style="float:right; margin: 25 0 0 0" src="./images/icon.png" width=100 height=100 />
 [![.NET](https://github.com/janovrom/BikeRouteTracker/actions/workflows/dotnet.yml/badge.svg)](https://github.com/janovrom/BikeRouteTracker/actions/workflows/dotnet.yml)
 
 

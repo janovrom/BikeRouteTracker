@@ -8,7 +8,7 @@
              x:DataType="vm:IMainViewModel">
     <Design.DataContext>
         <vm:DesignMainViewModel
-            State="Paused"
+            State="Stopped"
             CountdownText="3"
             Progress="1"/>
     </Design.DataContext>
@@ -60,9 +60,7 @@
                             Canvas.Left="75"
                             Canvas.Top="50"
                             Points="0,0 80,50, 0,100"
-                            Fill="{StaticResource Palette.FloralWhite}"
-                            Stroke="{StaticResource Palette.EerieBlack}"
-                            StrokeThickness="15"/>
+                            Fill="{StaticResource Palette.FloralWhite}"/>
                     </Canvas>
                 </Button.Content>
             </Button>

@@ -66,7 +66,11 @@ namespace BikeRouteTracker.Android
             RegisterDependencies();
             base.OnCreate(savedInstanceState);
 
-            Window?.AddFlags(WindowManagerFlags.KeepScreenOn | WindowManagerFlags.Fullscreen);
+            Window?.AddFlags(WindowManagerFlags.KeepScreenOn
+                | WindowManagerFlags.Fullscreen
+                | WindowManagerFlags.TranslucentNavigation
+                | WindowManagerFlags.LayoutInOverscan
+                | WindowManagerFlags.TranslucentStatus);
             RequestedOrientation = ScreenOrientation.Portrait;
 
             _locationService = Locator.Current.GetService<ILocationService>();

@@ -8,7 +8,7 @@
              x:DataType="vm:IMainViewModel">
     <Design.DataContext>
         <vm:DesignMainViewModel
-            State="Stopped"
+            State="Paused"
             CountdownText="3"
             Progress="1"/>
     </Design.DataContext>
@@ -31,10 +31,11 @@
         <!-- Start button -->
         <Grid IsVisible="{Binding State, Converter={StaticResource ResourceKey=MainViewModelStateToVisibleConverter}, ConverterParameter=Stopped}">
             <Button
-               IsEnabled="{Binding Path=$parent.IsVisible}"
-               Command="{Binding StartCommand}"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center">
+                Background="Transparent"
+                IsEnabled="{Binding Path=$parent.IsVisible}"
+                Command="{Binding StartCommand}"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
                 <Button.Content>
                     <Canvas
                         ClipToBounds="True"
@@ -44,7 +45,7 @@
                             <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
                         </Canvas.RenderTransform>
                         <!-- Background Circle -->
-                        <Ellipse
+                        <!--<Ellipse
                             Canvas.Left="30"
                             Canvas.Top="30"
                             Width="140"
@@ -53,15 +54,15 @@
                             <Ellipse.RenderTransform>
                                 <ScaleTransform ScaleX="{Binding Progress}" ScaleY="{Binding Progress}"/>
                             </Ellipse.RenderTransform>
-                        </Ellipse>
+                        </Ellipse>-->
                         <!-- Center Polygon (Decoration) -->
                         <Polygon
                             Canvas.Left="75"
                             Canvas.Top="50"
                             Points="0,0 80,50, 0,100"
                             Fill="{StaticResource Palette.FloralWhite}"
-                            Stroke="Black"
-                            StrokeThickness="3"/>
+                            Stroke="{StaticResource Palette.EerieBlack}"
+                            StrokeThickness="15"/>
                     </Canvas>
                 </Button.Content>
             </Button>
@@ -81,28 +82,71 @@
 
         <!-- Speed -->
         <Grid IsVisible="{Binding State, Converter={StaticResource ResourceKey=MainViewModelStateToVisibleConverter}, ConverterParameter=Running}">
-            <TextBlock
-                Text="{Binding SpeedKph}"
-                FontSize="124"
-                Foreground="{StaticResource Palette.FloralWhite}"
-                FontWeight="Bold"
+            <Button
+                Background="Transparent"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center"
-                Margin="0,0,0,0"/>
+                Command="{Binding PauseCommand}">
+                <TextBlock
+                    Text="{Binding SpeedKph}"
+                    FontSize="124"
+                    Foreground="{StaticResource Palette.FloralWhite}"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Margin="0,0,0,0"/>
+            </Button>
         </Grid>
         
-        <Button
-            HorizontalAlignment="Right"
-            VerticalAlignment="Bottom"
-            Margin="0,0,20,20"
-            Command="{Binding StopCommand}">
-            <Border
-                Width="50"
-                Height="50"
-                BorderThickness="2"
-                CornerRadius="4"
-                BorderBrush="Red">
-            </Border>
-        </Button>
+        <!-- Paused -->
+        <Grid IsVisible="{Binding State, Converter={StaticResource ResourceKey=MainViewModelStateToVisibleConverter}, ConverterParameter=Paused}">
+            <!-- Resume -->
+            <Button
+                Background="Transparent"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Command="{Binding ResumeCommand}">
+                <Canvas
+                    ClipToBounds="True"
+                    Width="200"
+                    Height="200">
+                    <Canvas.RenderTransform>
+                        <ScaleTransform ScaleX="0.75" ScaleY="0.75"/>
+                    </Canvas.RenderTransform>
+
+                    <!-- Left pause rectangle -->
+                    <Rectangle
+                        Canvas.Left="50"
+                        Canvas.Top="50"
+                        Width="30"
+                        Height="100"
+                        Fill="{StaticResource Palette.FloralWhite}"/>
+                    
+                    <!-- Right pause rectangle -->
+                    <Rectangle
+                        Canvas.Left="120"
+                        Canvas.Top="50"
+                        Width="30"
+                        Height="100"
+                        Fill="{StaticResource Palette.FloralWhite}"/>
+                </Canvas>
+            </Button>
+
+            <!-- Stop -->
+            <Button
+                Background="Transparent"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Bottom"
+                Margin="0,0,0,50"
+                Command="{Binding StopCommand}">
+                <TextBlock
+                    Text="Stop"
+                    FontSize="36"
+                    Foreground="{StaticResource Palette.Flame}"
+                    FontWeight="Bold"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+            </Button>
+        </Grid>
     </Grid>
 </UserControl>

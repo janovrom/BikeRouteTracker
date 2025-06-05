@@ -10,6 +10,8 @@ namespace BikeRouteTracker.ViewModels
 
         public ICommand StopCommand { get; init; }
         public ICommand StartCommand { get; init; }
+        public ICommand PauseCommand { get; init; } 
+        public ICommand ResumeCommand { get; init; }
 
         public MainViewModelState State { get; set; } = MainViewModelState.Stopped;
         public string CountdownText { get; set; } = "3";
@@ -18,6 +20,8 @@ namespace BikeRouteTracker.ViewModels
         {
             StopCommand = ReactiveCommand.Create(() => { });
             StartCommand = ReactiveCommand.Create(() => { });
+            PauseCommand = ReactiveCommand.Create(() => { });
+            ResumeCommand = ReactiveCommand.Create(() => { });
         }
     }
 }

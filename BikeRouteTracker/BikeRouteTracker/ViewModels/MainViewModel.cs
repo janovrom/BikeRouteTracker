@@ -1,6 +1,5 @@
 ﻿using BikeRouteTracker.Interfaces;
 using BikeRouteTracker.Models;
-using BikeRouteTracker.Services;
 using BikeRouteTracker.Writers;
 using ReactiveUI;
 using System;
@@ -41,9 +40,10 @@ namespace BikeRouteTracker.ViewModels
             set => this.RaiseAndSetIfChanged(ref _countdownText, value);
         }
 
-        public ICommand StopCommand { get; init; }
         public ICommand StartCommand { get; init; }
-
+        public ICommand PauseCommand { get; init; }
+        public ICommand ResumeCommand { get; init; }
+        public ICommand StopCommand { get; init; }
 
         public MainViewModel
         (
@@ -62,6 +62,7 @@ namespace BikeRouteTracker.ViewModels
 
             StopCommand = ReactiveCommand.Create(() =>
             {
+                State = MainViewModelState.Stopped;
                 _LocationService.UnregisterFromUpdates(this);
 
                 //string fileName = Path.Combine(
@@ -76,7 +77,19 @@ namespace BikeRouteTracker.ViewModels
                     .Write(_LocationRepository.GetAll())
                     .Close()
                     .WriteTo(stream);
-            });
+            }, outputScheduler: Scheduler.CurrentThread);
+
+            PauseCommand = ReactiveCommand.Create(() =>
+            {
+                State = MainViewModelState.Paused;
+                _LocationService.UnregisterFromUpdates(this);
+            }, outputScheduler: Scheduler.CurrentThread);
+
+            ResumeCommand = ReactiveCommand.Create(() =>
+            {
+                State = MainViewModelState.Running;
+                _LocationService.RegisterForUpdates(this);
+            }, outputScheduler: Scheduler.CurrentThread);
 
             StartCommand = ReactiveCommand.Create(async () =>
             {

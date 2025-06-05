@@ -17,6 +17,8 @@ namespace BikeRouteTracker.ViewModels
         MainViewModelState State { get; }
         ICommand StopCommand { get; }
         ICommand StartCommand { get; }
+        ICommand PauseCommand { get; }
+        ICommand ResumeCommand { get; }
         string CountdownText { get; set; }
     }
 }

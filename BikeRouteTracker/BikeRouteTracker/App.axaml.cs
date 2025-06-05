@@ -5,10 +5,8 @@ using BikeRouteTracker.Interfaces;
 using BikeRouteTracker.ViewModels;
 using BikeRouteTracker.Views;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Splat;
 using Splat.Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace BikeRouteTracker
 {

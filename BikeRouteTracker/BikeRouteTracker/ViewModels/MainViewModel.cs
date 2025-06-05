@@ -1,20 +1,28 @@
 ﻿using BikeRouteTracker.Interfaces;
 using BikeRouteTracker.Models;
-using BikeRouteTracker.Services;
 using BikeRouteTracker.Writers;
 using ReactiveUI;
 using System;
 using System.IO;
+using System.Reactive.Concurrency;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace BikeRouteTracker.ViewModels
 {
-    public class MainViewModel : ViewModelBase, ILocationListener
+    public class MainViewModel : ViewModelBase, IMainViewModel, ILocationListener
     {
         private readonly ILocationService _LocationService;
         private readonly ILocationRepository _LocationRepository;
         private readonly ISpeedService _SpeedService;
         private readonly IElapsedTimeService _ElapsedTimeService;
+
+        private MainViewModelState _state = MainViewModelState.Stopped;
+        public MainViewModelState State
+        {
+            get => _state;
+            set => this.RaiseAndSetIfChanged(ref _state, value);
+        }
 
         private int _speedKph = 0;
         public int SpeedKph
@@ -23,8 +31,19 @@ namespace BikeRouteTracker.ViewModels
             set => this.RaiseAndSetIfChanged(ref _speedKph, value);
         }
 
-        public ICommand StopCommand { get; init; }
+        public double Progress => 0.5;
+
+        private string _countdownText = "3";
+        public string CountdownText
+        {
+            get => _countdownText;
+            set => this.RaiseAndSetIfChanged(ref _countdownText, value);
+        }
+
         public ICommand StartCommand { get; init; }
+        public ICommand PauseCommand { get; init; }
+        public ICommand ResumeCommand { get; init; }
+        public ICommand StopCommand { get; init; }
 
         public MainViewModel
         (
@@ -43,6 +62,7 @@ namespace BikeRouteTracker.ViewModels
 
             StopCommand = ReactiveCommand.Create(() =>
             {
+                State = MainViewModelState.Stopped;
                 _LocationService.UnregisterFromUpdates(this);
 
                 //string fileName = Path.Combine(
@@ -57,12 +77,37 @@ namespace BikeRouteTracker.ViewModels
                     .Write(_LocationRepository.GetAll())
                     .Close()
                     .WriteTo(stream);
-            });
+            }, outputScheduler: Scheduler.CurrentThread);
 
-            StartCommand = ReactiveCommand.Create(() =>
+            PauseCommand = ReactiveCommand.Create(() =>
             {
+                State = MainViewModelState.Paused;
+                _LocationService.UnregisterFromUpdates(this);
+            }, outputScheduler: Scheduler.CurrentThread);
+
+            ResumeCommand = ReactiveCommand.Create(() =>
+            {
+                State = MainViewModelState.Running;
                 _LocationService.RegisterForUpdates(this);
-            });
+            }, outputScheduler: Scheduler.CurrentThread);
+
+            StartCommand = ReactiveCommand.Create(async () =>
+            {
+                State = MainViewModelState.Starting;
+                
+                CountdownText = "3";
+                await Task.Delay(1000);
+                CountdownText = "2";
+                await Task.Delay(1000);
+                CountdownText = "1";
+                await Task.Delay(1000);
+                CountdownText = "GO";
+                await Task.Delay(1000);
+
+                State = MainViewModelState.Running;
+
+                _LocationService.RegisterForUpdates(this);
+            }, outputScheduler: Scheduler.CurrentThread);
         }
 
         public void LocationChanged(Location location)

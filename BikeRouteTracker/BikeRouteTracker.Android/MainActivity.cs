@@ -8,10 +8,8 @@ using Avalonia;
 using Avalonia.Android;
 using Avalonia.ReactiveUI;
 using BikeRouteTracker.Interfaces;
-using BikeRouteTracker.Services;
 using Splat;
 using System;
-using System.Collections.Generic;
 
 namespace BikeRouteTracker.Android
 {
@@ -26,7 +24,6 @@ namespace BikeRouteTracker.Android
     {
         private ILocationService? _locationService;
         private LocationManager? _locationManager;
-        private readonly List<Interfaces.ILocationListener> _Listeners = [];
 
         public void OnLocationChanged(Location location)
         {
@@ -69,7 +66,12 @@ namespace BikeRouteTracker.Android
             RegisterDependencies();
             base.OnCreate(savedInstanceState);
 
-            Window?.AddFlags(WindowManagerFlags.KeepScreenOn | WindowManagerFlags.Fullscreen);
+            Window?.AddFlags(WindowManagerFlags.KeepScreenOn
+                | WindowManagerFlags.Fullscreen
+                | WindowManagerFlags.TranslucentNavigation
+                | WindowManagerFlags.LayoutInOverscan
+                | WindowManagerFlags.TranslucentStatus);
+            RequestedOrientation = ScreenOrientation.Portrait;
 
             _locationService = Locator.Current.GetService<ILocationService>();
         }

@@ -58,6 +58,7 @@ namespace BikeRouteTracker.Services
 
             if (_Listeners.Count == 0)
             {
+                ClearData();
                 _LocationProvider.CancelLocationUpdates();
             }
         }
@@ -80,6 +81,12 @@ namespace BikeRouteTracker.Services
         public void LocationProviderEnabled()
         {
             _Listeners.ForEach(listener => listener.OnProviderEnabled());
+        }
+
+        private void ClearData()
+        {
+            _previousLocation = null;
+            _currentLocation = null;
         }
     }
 }
